@@ -9,6 +9,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/digitaico/hackernews/graph"
 	"github.com/digitaico/hackernews/graph/generated"
+	database "github.com/digitaico/hackernews/internal/pkg/db"
 )
 
 const defaultPort = "8080"
@@ -19,6 +20,7 @@ func main() {
 		port = defaultPort
 	}
 
+	database.InitDB()
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
